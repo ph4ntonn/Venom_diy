@@ -42,11 +42,7 @@ func CopyStdin2Node(input io.Reader, output *node.Node, c chan bool) {
 				SrcHashID: utils.UUIDToArray32(node.CurrentNode.HashID),
 				DstHashID: utils.UUIDToArray32(output.HashID),
 			}
-			writeErr := output.WritePacket(packetHeader, data)
-			if writeErr != nil {
-				// 强制结束 CommandBuffers[protocol.SHELL]
-				node.CurrentNode.CommandBuffers[protocol.SHELL].WriteCloseMessage()
-			}
+			output.WritePacket(packetHeader, data)
 			if string(buf[:count]) == "exit\n" {
 				break
 			}

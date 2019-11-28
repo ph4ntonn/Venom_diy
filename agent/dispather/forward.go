@@ -46,10 +46,11 @@ func CopyNode2StdinPipe(input *node.Node, output io.Writer, c chan bool, cmd *ex
 		var packetHeader protocol.PacketHeader
 		var shellPacketCmd protocol.ShellPacketCmd
 		err := node.CurrentNode.CommandBuffers[protocol.SHELL].ReadPacket(&packetHeader, &shellPacketCmd)
-		if shellPacketCmd.Start == 0 {
+		if err != nil {
+		    output.Write([]byte("exit\n"))
 			break
 		}
-		if err != nil {
+		if shellPacketCmd.Start == 0 {
 			break
 		}
 		output.Write(shellPacketCmd.Cmd)

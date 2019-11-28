@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"sync"
+    "io"
 
 	"github.com/Dliv3/Venom/global"
 	"github.com/Dliv3/Venom/netio"
@@ -57,6 +58,7 @@ func (node *Node) CommandHandler(peerNode *Node) {
 		err := peerNode.ReadLowLevelPacket(&lowLevelPacket)
 		if err != nil {
 			fmt.Println("node disconnect: ", err)
+            node.CommandBuffers[protocol.SHELL].Chan <- io.EOF
             node.AliveCommandHandlerCount--
 			return
 		}

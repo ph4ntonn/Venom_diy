@@ -418,7 +418,7 @@ func handleShellCmd() {
 		cmd.Stderr = cmd.Stdout
 
 		if err := cmd.Start(); err != nil {
-			// log.Fatal(err)
+			log.Fatal(err)
 			shellPacketRet := protocol.ShellPacketRet{
 				Success: 0,
 			}
